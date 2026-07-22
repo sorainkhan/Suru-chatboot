@@ -103,10 +103,13 @@ function sendOtp(isResend) {
       showStep(stepOtp);
     })
     .catch((error) => {
-      console.error("Firebase Auth Error:", error);
-      if (errEl) {
-        errEl.textContent = "OTP পাঠানো যায়নি, আবার চেষ্টা করুন";
-      }
+  console.error("Firebase Auth Error:", error);
+  alert("Error details: " + error.message); // এই লাইনটি আপনার স্ক্রিনে আসল এরর দেখাবে!
+  if (errEl) {
+    errEl.textContent = "OTP পাঠানো যায়নি, আবার চেষ্টা করুন";
+  }
+})
+  
       // Reset reCAPTCHA on error
       if (window.grecaptcha && window.recaptchaVerifier) {
         window.recaptchaVerifier.render().then((widgetId) => {
