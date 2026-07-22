@@ -9,17 +9,17 @@ const stepOtp = document.getElementById("step-otp");
 const stepLoad = document.getElementById("step-loading");
 
 function showStep(step) {
-  [stepPhone, stepName, stepOtp, stepLoad].forEach((s) =>
-    s.classList.add("hidden")
-  );
-  step.classList.remove("hidden");
+  [stepPhone, stepName, stepOtp, stepLoad].forEach((s) => {
+    if (s) s.classList.add("hidden");
+  });
+  if (step) step.classList.remove("hidden");
 }
 
 function backTo(which) {
   if (which === "phone") showStep(stepPhone);
 }
 
-// ---------- Persistent login: never show login twice ----------
+// ---------- Persistent login ----------
 auth.onAuthStateChanged(async (user) => {
   if (user) {
     showStep(stepLoad);
@@ -30,7 +30,7 @@ auth.onAuthStateChanged(async (user) => {
         return;
       }
     } catch (e) {
-      /* fall through to normal login if offline */
+      /* offline handle */
     }
     showStep(stepPhone);
   } else {
@@ -43,35 +43,42 @@ function goToNameStep() {
   const cc = document.getElementById("cc").value.trim();
   const num = document.getElementById("phoneInput").value.trim();
   const errEl = document.getElementById("err-phone");
-  errEl.textContent = "";
+  if (errEl) errEl.textContent = "";
 
   if (!num || num.length < 6) {
-    errEl.textContent = "সঠিক মোবাইল নাম্বার দিন";
+    if (errEl) errEl.textContent = "সঠিক মোবাইল নাম্বার দিন";
     return;
   }
-  pendingPhone = cc + num.replace(/^0+/, "");
+  
+  // Clean phone number (Only numbers)
+  const cleanNum = num.replace(/\D/g, '').replace(/^0+/, '');
+  pendingPhone = cc + cleanNum;
   showStep(stepName);
 }
 
-// ---------- Step 2: name -> send OTP ----------
+// ---------- Step 2: setup reCAPTCHA & send OTP ----------
 function setupRecaptcha() {
-  if (window.recaptchaVerifier) return;
-  window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
-    "recaptcha-container",
-    {
-      size: "invisible",
-    }
-  );
+  if (!window.recaptchaVerifier) {
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+      "recaptcha-container",
+      {
+        size: "invisible",
+        callback: (response) => {
+          // reCAPTCHA solved
+        }
+      }
+    );
+  }
 }
 
 function sendOtp(isResend) {
   const errEl = document.getElementById("err-name");
-  errEl.textContent = "";
+  if (errEl) errEl.textContent = "";
 
   if (!isResend) {
     const name = document.getElementById("nameInput").value.trim();
     if (!name) {
-      errEl.textContent = "আপনার নাম লিখুন";
+      if (errEl) errEl.textContent = "আপনার নাম লিখুন";
       return;
     }
     pendingName = name;
@@ -89,15 +96,22 @@ function sendOtp(isResend) {
     .signInWithPhoneNumber(pendingPhone, window.recaptchaVerifier)
     .then((result) => {
       confirmationResult = result;
-      document.getElementById("otpSentTo").textContent =
-        pendingPhone + " নাম্বারে একটি কোড পাঠানো হয়েছে";
+      const sentToEl = document.getElementById("otpSentTo");
+      if (sentToEl) {
+        sentToEl.textContent = pendingPhone + " নাম্বারে একটি কোড পাঠানো হয়েছে";
+      }
       showStep(stepOtp);
     })
     .catch((error) => {
-      console.error(error);
-      errEl.textContent = "OTP পাঠানো যায়নি, আবার চেষ্টা করুন";
-      if (window.recaptchaVerifier) {
-        window.recaptchaVerifier.render().then((id) => grecaptcha.reset(id));
+      console.error("Firebase Auth Error:", error);
+      if (errEl) {
+        errEl.textContent = "OTP পাঠানো যায়নি, আবার চেষ্টা করুন";
+      }
+      // Reset reCAPTCHA on error
+      if (window.grecaptcha && window.recaptchaVerifier) {
+        window.recaptchaVerifier.render().then((widgetId) => {
+          grecaptcha.reset(widgetId);
+        });
       }
     })
     .finally(() => {
@@ -126,14 +140,14 @@ function verifyOtp() {
     .map((i) => i.value)
     .join("");
   const errEl = document.getElementById("err-otp");
-  errEl.textContent = "";
+  if (errEl) errEl.textContent = "";
 
   if (code.length < 6) {
-    errEl.textContent = "৬ ডিজিটের কোডটি সম্পূর্ণ দিন";
+    if (errEl) errEl.textContent = "৬ ডিজিটের কোডটি সম্পূর্ণ দিন";
     return;
   }
   if (!confirmationResult) {
-    errEl.textContent = "আবার OTP পাঠান";
+    if (errEl) errEl.textContent = "আবার OTP পাঠান";
     return;
   }
 
@@ -159,8 +173,9 @@ function verifyOtp() {
       window.location.replace("home.html");
     })
     .catch((error) => {
-      console.error(error);
+      console.error("Verification Error:", error);
       showStep(stepOtp);
-      errEl.textContent = "কোডটি সঠিক নয়, আবার চেষ্টা করুন";
+      if (errEl) errEl.textContent = "কোডটি সঠিক নয়, আবার চেষ্টা করুন";
     });
-}
+    }
+
