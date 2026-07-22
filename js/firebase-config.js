@@ -6,7 +6,7 @@
 // the values below with the ones from Project settings.
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBapnnDHtUYX2HMajgjt3qsIpeuBWpA3k",
+  apiKey: "AIzaSyAuKGj5GY8qv3Z961evCMZxQSM_xbi4ePQ",
   authDomain: "chatbot-c1a41.firebaseapp.com",
   databaseURL: "https://chatbot-c1a41-default-rtdb.firebaseio.com",
   projectId: "chatbot-c1a41",
