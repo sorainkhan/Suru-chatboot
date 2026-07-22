@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Suru Chatbot — Chats</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body id="body">
+
+<div class="topbar">
+  <div class="topbar-row">
+    <button class="menu-btn" onclick="location.href='home.html'"><i style="width:16px;transform:rotate(0)"></i></button>
+    <div class="app-title brand" style="font-size:24px;">Chat list</div>
+    <button onclick="location.href='creategroup.html'" style="font-size:22px;">👥➕</button>
+  </div>
+  <div class="icon-nav">
+    <button onclick="location.href='home.html'" title="Home">🏠</button>
+    <button onclick="location.href='video.html'" title="Video">🎬</button>
+    <button onclick="comingSoon('প্রোফাইল')" title="Profile">👤</button>
+    <button class="active" title="Chat">💬</button>
+    <button onclick="comingSoon('নোটিফিকেশন')" title="Notifications">🔔</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="search-row" style="padding-top:14px;">
+    <div class="search-box">
+      <span>🔍</span>
+      <input id="searchInput" placeholder="Find your friend (phone number)" inputmode="tel" oninput="onSearchInput()" />
+    </div>
+  </div>
+  <div class="search-results hidden" id="searchResults"></div>
+
+  <div class="requests-banner hidden" id="requestsBanner" onclick="location.href='requests.html'">
+    <div class="dot" id="reqCount">0</div>
+    <div class="txt">Friend requests</div>
+    <div>›</div>
+  </div>
+
+  <div class="stories-row" id="storiesRow">
+    <div class="story-item" onclick="document.getElementById('storyFile').click()">
+      <div class="story-ring seen"><div class="avatar" id="myStoryAvatar">?</div><div class="plus">+</div></div>
+      <div class="story-name">My story</div>
+    </div>
+  </div>
+  <input type="file" id="storyFile" accept="image/*,video/*" class="hidden" onchange="uploadStory(event)">
+
+  <div class="section-label">Messages</div>
+  <div id="chatList">
+    <div class="empty-state" id="chatLoading"><div class="ic">⏳</div>লোড হচ্ছে...</div>
+  </div>
+</div>
+
+<!-- ===== chat row 3-dot sheet ===== -->
+<div class="sheet-backdrop" id="sheetBackdrop" onclick="closeSheet()"></div>
+<div class="sheet" id="chatSheet"></div>
+
+<!-- ===== story viewer overlay ===== -->
+<div class="story-overlay" id="storyOverlay">
+  <div class="story-progress" id="storyProgress"></div>
+  <div class="story-top">
+    <div class="avatar avatar-sm" id="storyTopAvatar"></div>
+    <div>
+      <div class="name" id="storyTopName"></div>
+      <div class="time" id="storyTopTime"></div>
+    </div>
+    <div style="flex:1"></div>
+    <button style="color:#fff;font-size:20px;" onclick="closeStoryViewer()">✕</button>
+  </div>
+  <div class="story-media-wrap" id="storyMediaWrap"></div>
+  <div class="story-react-row" id="storyReactRow" style="justify-content:center;padding-bottom:6px;"></div>
+  <div class="story-bottom" id="storyBottomBar"></div>
+</div>
+
+<div class="sheet-backdrop" id="viewersBackdrop" onclick="closeViewersSheet()"></div>
+<div class="sheet" id="viewersSheet"></div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/common.js"></script>
+<script src="js/callSignal.js"></script>
+<script src="js/chatlist.js"></script>
+<script src="js/push.js"></script>
+</body>
+</html>

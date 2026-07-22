@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Suru Chatbot — New Group</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body id="body">
+
+<div class="topbar">
+  <div class="topbar-row">
+    <button class="menu-btn" onclick="location.href='chatlist.html'">←</button>
+    <div class="app-title brand" style="font-size:22px;">New Group</div>
+    <div style="width:26px"></div>
+  </div>
+</div>
+
+<div class="container">
+  <div style="display:flex;align-items:center;gap:14px;padding:18px 16px;">
+    <div class="avatar avatar-lg" id="groupAvatarPreview" onclick="document.getElementById('groupPhotoInput').click()">📷</div>
+    <input type="file" id="groupPhotoInput" accept="image/*" class="hidden" onchange="onGroupPhoto(event)">
+    <div class="field" style="flex:1;margin:0;">
+      <label>Group name</label>
+      <input id="groupNameInput" placeholder="যেমনঃ Cousins Squad" />
+    </div>
+  </div>
+
+  <div class="section-label" id="pickCount">Select friends (0 selected)</div>
+  <div id="friendPickList">
+    <div class="empty-state" id="fpLoading"><div class="ic">⏳</div>লোড হচ্ছে...</div>
+  </div>
+</div>
+
+<button class="fab" style="bottom:20px;" onclick="createGroup()">✓</button>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/common.js"></script>
+<script src="js/creategroup.js"></script>
+</body>
+</html>

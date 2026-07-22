@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Suru Chatbot — Chat</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body id="body">
+
+<div class="chat-header">
+  <button class="back" onclick="location.href='chatlist.html'">←</button>
+  <div class="who" onclick="openInfoSheet()">
+    <div class="avatar avatar-sm" id="hdrAvatar">?</div>
+    <div>
+      <div class="name" id="hdrName">…</div>
+      <div class="status" id="hdrStatus"></div>
+    </div>
+  </div>
+  <div class="acts">
+    <button onclick="callFromHeader('audio')">📞</button>
+    <button onclick="callFromHeader('video')">🎥</button>
+  </div>
+</div>
+
+<div class="container" id="scrollContainer" style="padding-bottom:80px;">
+  <div class="messages-wrap" id="messagesWrap">
+    <div class="empty-state" id="msgLoading"><div class="ic">⏳</div>লোড হচ্ছে...</div>
+  </div>
+</div>
+
+<div class="chat-input-bar" id="normalInputBar">
+  <label class="ic-btn" for="mediaInput">📎</label>
+  <input type="file" id="mediaInput" accept="image/*,video/*" class="hidden" onchange="onMediaPicked(event)">
+  <input type="text" id="textInput" placeholder="Message" onkeydown="if(event.key==='Enter')sendText()">
+  <button class="ic-btn" onclick="startRecording()">🎤</button>
+  <button class="send-btn" onclick="sendText()">➤</button>
+</div>
+<div class="chat-input-bar hidden" id="recInputBar">
+  <div class="rec-indicator"><span class="rec-dot"></span> রেকর্ড হচ্ছে...</div>
+  <button class="ic-btn" onclick="cancelRecording()">✕</button>
+  <button class="send-btn" onclick="stopRecording()">➤</button>
+</div>
+
+<!-- message reaction popup lives inline per bubble via JS -->
+
+<!-- ===== contact / group info sheet ===== -->
+<div class="sheet-backdrop" id="infoBackdrop" onclick="closeInfoSheet()"></div>
+<div class="sheet" id="infoSheet" style="max-height:80vh;overflow-y:auto;"></div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/common.js"></script>
+<script src="js/callSignal.js"></script>
+<script src="js/chat.js"></script>
+<script src="js/push.js"></script>
+</body>
+</html>

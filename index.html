@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Suru Chatbot — Login</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body id="body">
+
+<div class="auth-screen">
+  <div class="auth-logo brand">Suru <span>chatbot</span></div>
+  <div class="auth-tag">আপনার বন্ধুদের সাথে যুক্ত থাকুন — চ্যাট, পোস্ট আর ভিডিও, সব এক জায়গায়</div>
+
+  <div class="auth-card">
+
+    <!-- STEP 1: phone -->
+    <div id="step-phone">
+      <div class="auth-step-title">ফোন নাম্বার দিন</div>
+      <div class="auth-step-sub">আপনার আইডি এই নাম্বার দিয়েই তৈরি হবে</div>
+      <div class="field">
+        <label>মোবাইল নাম্বার</label>
+        <div class="phone-row">
+          <input class="cc" id="cc" value="+880" />
+          <input id="phoneInput" type="tel" placeholder="1XXXXXXXXX" inputmode="numeric" />
+        </div>
+      </div>
+      <div class="auth-error" id="err-phone"></div>
+      <button class="btn btn-primary btn-block" onclick="goToNameStep()">পরবর্তী ধাপ</button>
+    </div>
+
+    <!-- STEP 2: name -->
+    <div id="step-name" class="hidden">
+      <div class="auth-step-title">আপনার নাম লিখুন</div>
+      <div class="auth-step-sub">এই নামটি ৩০ দিনের আগে পরিবর্তন করা যাবে না</div>
+      <div class="field">
+        <label>পুরো নাম</label>
+        <input id="nameInput" type="text" placeholder="যেমনঃ Nusrat Jahan" />
+      </div>
+      <div class="auth-error" id="err-name"></div>
+      <div id="recaptcha-container"></div>
+      <button class="btn btn-primary btn-block" id="sendOtpBtn" onclick="sendOtp()">OTP পাঠান</button>
+      <div class="auth-switch"><a href="javascript:void(0)" onclick="backTo('phone')">← নাম্বার পরিবর্তন করুন</a></div>
+    </div>
+
+    <!-- STEP 3: otp -->
+    <div id="step-otp" class="hidden">
+      <div class="auth-step-title">OTP কোড দিন</div>
+      <div class="auth-step-sub" id="otpSentTo">আপনার নাম্বারে একটি কোড পাঠানো হয়েছে</div>
+      <div class="otp-row">
+        <input maxlength="1" inputmode="numeric" />
+        <input maxlength="1" inputmode="numeric" />
+        <input maxlength="1" inputmode="numeric" />
+        <input maxlength="1" inputmode="numeric" />
+        <input maxlength="1" inputmode="numeric" />
+        <input maxlength="1" inputmode="numeric" />
+      </div>
+      <div class="auth-error" id="err-otp"></div>
+      <button class="btn btn-primary btn-block" onclick="verifyOtp()">যাচাই করুন</button>
+      <div class="auth-switch"><a href="javascript:void(0)" id="resendLink" onclick="sendOtp(true)">কোড আবার পাঠান</a></div>
+    </div>
+
+    <div id="step-loading" class="hidden" style="text-align:center;padding:20px 0;">
+      <div class="auth-step-sub">অপেক্ষা করুন...</div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>

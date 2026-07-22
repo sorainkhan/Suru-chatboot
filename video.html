@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Suru ভিডিও</title>
+<link rel="stylesheet" href="css/style.css">
+<style>html,body{ background:#000; overflow:hidden; }</style>
+</head>
+<body id="body">
+
+<div class="video-topbar">
+  <button onclick="location.href='home.html'">←</button>
+  <div class="brand">Suru <span style="color:var(--pink-deep)">ভিডিও</span></div>
+  <div class="spacer"></div>
+  <button onclick="openVideoSearch()">🔍</button>
+  <button onclick="location.href='chatlist.html'">🔔</button>
+</div>
+
+<div class="video-search-bar" id="videoSearchBar">
+  <button onclick="closeVideoSearch()">←</button>
+  <input id="videoSearchInput" placeholder="Search by topic..." oninput="onVideoSearch()">
+</div>
+<div class="video-search-results" id="videoSearchResults"></div>
+
+<div class="video-feed" id="videoFeed">
+  <div style="height:100vh;display:flex;align-items:center;justify-content:center;color:#fff;" id="feedLoadingMsg">
+    ভিডিও লোড হচ্ছে...
+  </div>
+</div>
+
+<button class="video-fab" onclick="openUpload()">+</button>
+
+<!-- ===== upload modal ===== -->
+<div class="modal-backdrop" id="uploadBackdrop">
+  <div class="compose-modal">
+    <div class="compose-head">
+      <div style="font-weight:700;font-size:16px;">নতুন ভিডিও পোস্ট করুন</div>
+      <button class="close" onclick="closeUpload()">✕</button>
+    </div>
+    <div class="compose-attach" style="margin-top:0;border-top:none;padding-top:0;">
+      <label for="videoFileInput">🎬 Select video</label>
+    </div>
+    <input type="file" id="videoFileInput" accept="video/*" class="hidden" onchange="onVideoPicked(event)">
+    <div id="videoPreviewWrap"></div>
+    <textarea class="compose-textarea" id="videoCaption" placeholder="Caption লিখুন..." style="min-height:60px;margin-top:10px;"></textarea>
+    <input class="field" id="videoTopics" placeholder="Topics (কমা দিয়ে আলাদা করুন, যেমনঃ funny, islamic, cooking)"
+      style="width:100%;padding:12px 14px;border:2px solid var(--line);border-radius:12px;background:var(--white);outline:none;font-size:13px;margin-top:10px;">
+    <div class="upload-progress-bar hidden" id="uploadProgressWrap"><i id="uploadProgressBar"></i></div>
+    <button class="btn btn-primary btn-block" style="margin-top:16px;" onclick="submitVideo()" id="submitVideoBtn">Post video</button>
+  </div>
+</div>
+
+<!-- ===== comments sheet ===== -->
+<div class="sheet-backdrop" id="sheetBackdrop" onclick="closeCommentsSheet()"></div>
+<div class="sheet" id="commentsSheet"></div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/common.js"></script>
+<script src="js/callSignal.js"></script>
+<script src="js/video.js"></script>
+</body>
+</html>
