@@ -38,7 +38,10 @@
         <input id="nameInput" type="text" placeholder="যেমনঃ Nusrat Jahan" />
       </div>
       <div class="auth-error" id="err-name"></div>
+      
+      <!-- Hidden reCAPTCHA container -->
       <div id="recaptcha-container"></div>
+      
       <button class="btn btn-primary btn-block" id="sendOtpBtn" onclick="sendOtp()">OTP পাঠান</button>
       <div class="auth-switch"><a href="javascript:void(0)" onclick="backTo('phone')">← নাম্বার পরিবর্তন করুন</a></div>
     </div>
@@ -67,10 +70,13 @@
   </div>
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+<!-- Firebase SDKs (Updated to Stable v8) -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+
+<!-- App Scripts -->
 <script src="js/firebase-config.js"></script>
 <script src="js/theme.js"></script>
 <script src="js/auth.js"></script>
