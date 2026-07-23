@@ -146,6 +146,6 @@ function verifyOtp(){
     .catch((error) => {
       console.error(error);
       showStep(stepOtp);
-      errEl.textContent = 'কোডটি সঠিক নয়, আবার চেষ্টা করুন';
+      errEl.textContent = 'কোডটি সঠিক নয়, আবার চেষ্টা করুন' + `  [${error.code || 'unknown'}]`;
     });
-}
+        }
